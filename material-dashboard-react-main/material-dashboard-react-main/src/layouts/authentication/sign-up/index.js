@@ -1,38 +1,47 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2023 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// react-router-dom components
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-// @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-
-// Authentication layout components
 import CoverLayout from "layouts/authentication/components/CoverLayout";
-
-// Images
 import bgImage from "assets/images/bg-sign-up-cover.jpeg";
+import axios from "axios";
 
 function Cover() {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [pass, setPass] = useState("");
+  const [type, setType] = useState(""); // State for dropdown value
+  const [description, setDescription] = useState(""); // State for description
+
+  const url =
+    type === "organization"
+      ? "http://localhost:8009/api/auth/register/organization"
+      : "http://localhost:8009/api/auth/register/volunteer"; // Conditionally set the URL based on the selected type
+
+  const data = {
+    name: name,
+    email: email,
+    password: pass,
+    phone: "", // Add phone field value if needed
+    address: "", // Add address field value if needed
+    description: type === "organization" ? description : "Expertise: " + description, // Conditionally set description based on type
+  };
+
+  const handleSignUp = () => {
+    // axios
+    //   .post(url, data)
+    //   .then((response) => {
+    //     console.log("Response:", response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error.message);
+    //   });
+    window.location.href = ''
+  };
+
   return (
     <CoverLayout image={bgImage}>
       <Card>
@@ -48,7 +57,7 @@ function Cover() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Join us today
+            Prarambh
           </MDTypography>
           <MDTypography display="block" variant="button" color="white" my={1}>
             Enter your email and password to register
@@ -57,38 +66,53 @@ function Cover() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox mb={2}>
-              <MDInput type="text" label="Name" variant="standard" fullWidth />
+              <MDInput
+                type="text"
+                label="Name"
+                variant="standard"
+                fullWidth
+                onChange={(e) => setName(e.target.value)}
+              />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" variant="standard" fullWidth />
+              <MDInput
+                type="email"
+                label="Email"
+                variant="standard"
+                fullWidth
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" variant="standard" fullWidth />
+              <MDInput
+                type="password"
+                label="Password"
+                variant="standard"
+                fullWidth
+                onChange={(e) => setPass(e.target.value)}
+              />
             </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Checkbox />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;I agree the&nbsp;
-              </MDTypography>
-              <MDTypography
-                component="a"
-                href="#"
-                variant="button"
-                fontWeight="bold"
-                color="info"
-                textGradient
-              >
-                Terms and Conditions
-              </MDTypography>
+            <MDBox mb={2}>
+              <select value={type} onChange={(e) => setType(e.target.value)}>
+                <option value="">Select Type</option>
+                <option value="organization">Organization</option>
+                <option value="volunteer">Volunteer</option>
+              </select>
+            </MDBox>
+            <MDBox mb={2}>
+              <MDInput
+                type="text"
+                label={type === "organization" ? "Description" : "Expertise"}
+                variant="standard"
+                fullWidth
+                multiline
+                rows={4}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
-                sign in
+              <MDButton variant="gradient" color="info" fullWidth onClick={handleSignUp}>
+                Sign Up
               </MDButton>
             </MDBox>
             <MDBox mt={3} mb={1} textAlign="center">
@@ -100,7 +124,6 @@ function Cover() {
                   variant="button"
                   color="info"
                   fontWeight="medium"
-                  textGradient
                 >
                   Sign In
                 </MDTypography>

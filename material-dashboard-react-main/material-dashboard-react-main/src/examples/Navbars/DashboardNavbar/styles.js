@@ -105,21 +105,18 @@ const navbarRow = ({ breakpoints }, { isMini }) => ({
 });
 
 const navbarIconButton = ({ typography: { size }, breakpoints }) => ({
-  px: 1,
-
-  "& .material-icons, .material-icons-round": {
-    fontSize: `${size.xl} !important`,
-  },
-
-  "& .MuiTypography-root": {
-    display: "none",
-
-    [breakpoints.up("sm")]: {
-      display: "inline-block",
-      lineHeight: 1.2,
-      ml: 0.5,
-    },
-  },
+  // px: 1,
+  // "& .material-icons, .material-icons-round": {
+  //   fontSize: `${size.xl} !important`,
+  // },
+  // "& .MuiTypography-root": {
+  //   display: "none",
+  //   [breakpoints.up("sm")]: {
+  //     display: "inline-block",
+  //     lineHeight: 1.2,
+  //     ml: 0.5,
+  //   },
+  // },
 });
 
 const navbarMobileMenu = ({ breakpoints }) => ({

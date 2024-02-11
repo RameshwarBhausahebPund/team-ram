@@ -34,9 +34,67 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  // Define the URL of the backend endpoint
+  //const url = "http://localhost:8009/api/vynki/totalStudents";
+
+  const [totalStudents, setStudents] = useState(0);
+  const [totalEvents, setEvents] = useState(0);
+  const [totalVolunteers, setVolunteers] = useState(0);
+  const [totalTransactions, setTransactions] = useState(0);
+
+  useEffect(() => {
+    // Make a GET request using Axios
+    //console.log("helllo");
+    axios
+      .get("http://localhost:8009/api/vynki/totalStudents")
+      .then((response) => {
+        // Handle the response from the server
+        // console.log("Total students:", response.data);
+        setStudents(response.data.totalStudents);
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error.message);
+      });
+    axios
+      .get("http://localhost:8009/api/vynki/totalEvents")
+      .then((response) => {
+        // Handle the response from the server
+        // console.log("Total students:", response.data);
+        setEvents(response.data.totalEvents);
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error.message);
+      });
+    axios
+      .get("http://localhost:8009/api/vynki/totalVolunteers")
+      .then((response) => {
+        // Handle the response from the server
+        // console.log("Total students:", response.data);
+        setVolunteers(response.data.totalVolunteers);
+      })
+      .catch((error) => {
+        // Handle errors
+        // console.error("Error:", error.message);
+        setTransactions(response.data.totalTransactions);
+      });
+    axios
+      .get("http://localhost:8009/api/vynki/totalTransactions")
+      .then((response) => {
+        // Handle the response from the server
+        console.log("Total students:", response.data);
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error.message);
+      });
+  }, []);
 
   return (
     <DashboardLayout>
@@ -48,8 +106,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="dark"
                 icon="weekend"
-                title="Bookings"
-                count={281}
+                title="Students"
+                count={totalStudents}
                 percentage={{
                   color: "success",
                   amount: "+55%",
@@ -62,8 +120,8 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 icon="leaderboard"
-                title="Today's Users"
-                count="2,300"
+                title="Events"
+                count={totalEvents}
                 percentage={{
                   color: "success",
                   amount: "+3%",
@@ -77,8 +135,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="success"
                 icon="store"
-                title="Revenue"
-                count="34k"
+                title="Volunteers"
+                count={totalVolunteers}
                 percentage={{
                   color: "success",
                   amount: "+1%",
@@ -92,8 +150,8 @@ function Dashboard() {
               <ComplexStatisticsCard
                 color="primary"
                 icon="person_add"
-                title="Followers"
-                count="+91"
+                title="Transactions"
+                count={totalTransactions}
                 percentage={{
                   color: "success",
                   amount: "",
